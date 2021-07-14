@@ -21,7 +21,17 @@ const findRecordWithSmallestDifferenceBetween = (column1: string, column2: strin
   }, undefined)
 }
 
-const WeatherTable: FC<any> = ({ weatherDays }) => {
+type weatherDayType = {
+  'title': number,
+  'MxT': number,
+  'MnT': number,
+}
+
+interface WeatherTableInterface {
+  weatherDays: Array<weatherDayType>
+}
+
+const WeatherTable: FC<WeatherTableInterface> = ({ weatherDays }) => {
   const selectedDay = findRecordWithSmallestDifferenceBetween('MxT', 'MnT', weatherDays)
 
   if (!selectedDay)
@@ -54,13 +64,23 @@ const WeatherTable: FC<any> = ({ weatherDays }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={dataSource} />;
+  return <Table columns={columns} dataSource={dataSource} pagination={false} />;
 }
 
-const FootBallTable: FC<any> = ({ teams }) => {
-  const selectedDay = findRecordWithSmallestDifferenceBetween('F', 'A', teams)
+type footballTeamType = {
+  'title': string,
+  'F': number,
+  'A': number,
+}
 
-  if (!selectedDay)
+interface FootballTableInterface {
+  footballTeams: Array<footballTeamType>
+}
+
+const FootballTable: FC<FootballTableInterface> = ({ footballTeams }) => {
+  const selectedFootballTeam = findRecordWithSmallestDifferenceBetween('F', 'A', footballTeams)
+
+  if (!selectedFootballTeam)
     return null
 
   const columns = [
@@ -70,12 +90,12 @@ const FootBallTable: FC<any> = ({ teams }) => {
       key: 'Team',
     },
     {
-      title: 'F',
+      title: 'For',
       dataIndex: 'F',
       key: 'F',
     },
     {
-      title: 'A',
+      title: 'Against',
       dataIndex: 'A',
       key: 'A',
     },
@@ -83,14 +103,14 @@ const FootBallTable: FC<any> = ({ teams }) => {
 
   const dataSource = [
     {
-      key: selectedDay.Team,
-      Team: selectedDay.Team,
-      F: selectedDay.F,
-      A: selectedDay.A,
+      key: selectedFootballTeam.Team,
+      Team: selectedFootballTeam.Team,
+      F: selectedFootballTeam.F,
+      A: selectedFootballTeam.A,
     },
   ];
 
-  return <Table columns={columns} dataSource={dataSource} />;
+  return <Table columns={columns} dataSource={dataSource} pagination={false} />;
 }
 
 export const App: FC = () => {
@@ -98,15 +118,15 @@ export const App: FC = () => {
   const [footballTeams, setFootballTeams] = useState<any[]>([])
 
   useEffect(() => {
-    getWeather().then((data) => setWeatherDays(data))
-    getTeams().then((data) => setFootballTeams(data))
+    getWeather().then(setWeatherDays)
+    getTeams().then(setFootballTeams)
   }, [])
 
   return (
     <div className="App">
       <h1>Test technique: Gabriel Gagnon</h1>
       {weatherDays && <WeatherTable weatherDays={weatherDays} />}
-      {footballTeams && <FootBallTable teams={footballTeams} />}
+      {footballTeams && <FootballTable footballTeams={footballTeams} />}
     </div>
   );
 }

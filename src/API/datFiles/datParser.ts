@@ -51,13 +51,12 @@ const getColumnValueFromRow = (columnHeaderData: { title: string, startIndex: nu
   } else {
     return value
   }
-
 }
 
 export const parseDat = (data: string) => {
   const rows = data.split('\n')
 
-  // Appliquer l'index du premier char pour chaque colonne
+  // Aller récupérer l'index du premier char pour chaque colonne
   const headerIndexes = getHeaderIndexes(rows)
 
   // Avoir les rows valides seulement

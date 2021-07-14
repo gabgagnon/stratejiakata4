@@ -7,7 +7,5 @@ configure({ adapter: new Adapter() })
 describe('App', () => {
   it('should render properly', () => {
     const AppShallow = shallow(<App />)
-    const product = AppShallow.find('Product')
-    expect(product.exists()).toEqual(true)
   })
 })
