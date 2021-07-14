@@ -10,8 +10,8 @@ export const App: FC = () => {
   const [footballTeams, setFootballTeams] = useState<any[]>([])
 
   useEffect(() => {
-    getWeather().then((weatherDaysFetched) => setWeatherDays(weatherDaysFetched))
-    getTeams().then((footballTeamsFetched) => setFootballTeams(footballTeamsFetched))
+    getWeather().then(setWeatherDays)
+    getTeams().then(setFootballTeams)
   }, [])
 
   debugger
